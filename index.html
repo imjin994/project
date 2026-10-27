@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <!-- 모바일 및 태블릿 등 모든 기기에서 화면 배율이 적절히 조절되도록 뷰포트를 설정합니다. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEOUL - 전통과 미래가 공존하는 역동적인 도시, 서울</title>
+
+  <!-- [외부 리소스 1] 웹폰트 로드: 깔끔하고 가독성 높은 한국어 서체(Pretendard)와 영문 서체(Montserrat) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <!-- [외부 리소스 2] 아이콘 폰트(Font Awesome): 메뉴 아이콘, 음소거/재생 버튼 등에 활용됩니다. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==========================================================
+       [1] CSS 기본 변수(CSS Variables) 및 리셋 설정
+       - 웹사이트 전체에서 일관된 색상과 여백을 관리할 수 있도록 변수를 정의합니다.
+       ========================================================== */
+    :root {
+      --bg-color: #0b0f19;          /* 깊고 신비로운 다크 네이비 배경색 */
+      --card-bg: rgba(22, 27, 46, 0.75); /* 글래스모피즘(반투명 유리) 카드 배경 */
+      --card-border: rgba(255, 255, 255, 0.12); /* 은은한 테두리 선 */
+      --primary: #4f46e5;           /* 포인트 컬러: 인디고 블루 */
+      --accent-cyan: #06b6d4;       /* 트렌디한 네온 사이언 */
+      --accent-pink: #ec4899;       /* 화려한 네온 핑크 */
+      --text-main: #f8fafc;         /* 기본 글자색 (밝은 흰색) */
+      --text-muted: #94a3b8;        /* 보조 설명용 흐린 글자색 */
+      --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* 부드러운 가속도 애니메이션 */
+    }
+
+    /* 모든 요소의 기본 마진과 패딩을 0으로 초기화하고, 박스 크기를 테두리 포함(border-box)으로 설정 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* 스크롤 시 부드럽게 미끄러지듯 이동하도록 설정 */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden; /* 가로 스크롤바가 생기는 현상을 방지합니다. */
+    }
+
+    /* 사용자가 본문 글자를 드래그(블록 지정)했을 때의 색상 */
+    ::selection {
+      background-color: var(--accent-pink);
+      color: #ffffff;
+    }
+
+    /* ==========================================================
+       [2] 상단 네비게이션 헤더 (Glassmorphism Header)
+       - 스크롤을 내려도 상단에 고정되며, 뒷배경이 흐려지는(Blur) 효과를 줍니다.
+       ========================================================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 74px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5%;
+      z-index: 1000;
+      background: rgba(11, 15, 25, 0.65);
+      backdrop-filter: blur(14px);         /* 배경 블러 처리 (사파리 등 최신 브라우저 지원) */
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--card-border);
+      transition: var(--transition);
+    }
+
+    /* 스크롤 시 자바스크립트로 추가될 클래스: 높이를 약간 줄이고 배경을 더 어둡게 만듭니다. */
+    .navbar.scrolled {
+      height: 64px;
+      background: rgba(11, 15, 25, 0.95);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    /* 사이트 로고 */
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* 네비게이션 링크 목록 */
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    /* 메뉴에 마우스를 올렸을 때 아래에서 차오르는 네온 언더라인 효과 */
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink));
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* 모바일용 햄버거 메뉴 버튼 (기본 데스크톱에서는 숨김 처리) */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ==========================================================
+       [3] 메인 히어로(Hero) 섹션 & 비디오 컨테이너
+       - 첫 화면에 웅장한 타이틀과 함께 중앙에 동영상을 배치합니다.
+       ========================================================== */
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 120px 5% 70px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* 배경을 은은하게 비추는 오로라 빛 원형 조명 효과 */
+    .hero-glow {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(79, 70, 229, 0.28) 0%, rgba(236, 72, 153, 0.18) 50%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      filter: blur(90px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* 상단 미니 뱃지 */
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      margin-bottom: 1.2rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+      backdrop-filter: blur(5px);
+    }
+
+    /* 메인 큰 제목 */
+    .hero-title {
+      font-family: 'Montserrat', "Pretendard", sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+      color: #ffffff;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    /* 메인 부가 설명 */
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      word-break: keep-all; /* 한글 단어가 중간에 어색하게 잘리지 않도록 방지 */
+    }
+
+    /* ----------------------------------------------------------
+       ★ 비디오 래퍼 (모바일에서도 16:9 비율이 절대 깨지지 않는 비결)
+       ---------------------------------------------------------- */
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      border-radius: 20px;
+      padding: 4px;
+      /* 네온 컬러의 화려한 그라디언트 테두리 */
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.85), rgba(168, 85, 247, 0.7), rgba(236, 72, 153, 0.85));
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 35px rgba(99, 102, 241, 0.35);
+      transition: var(--transition);
+    }
+
+    .video-container:hover {
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 45px rgba(236, 72, 153, 0.5);
+      transform: translateY(-4px);
+    }
+
+    .video-inner {
+      position: relative;
+      width: 100%;
+      /* 
+         aspect-ratio: 16 / 9;
+         - 모바일, 태블릿, PC 등 화면 폭이 어떻게 변하든 정확히 16:9 비율을 유지시켜 주는 모던 CSS 속성입니다.
+      */
+      aspect-ratio: 16 / 9;
+      background-color: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 실제 비디오 태그 스타일 */
+    .video-inner video {
+      width: 100%;
+      height: 100%;
+      /* 
+         object-fit: cover;
+         - 영상 원본 비율을 유지하며 지정된 컨테이너 박스를 빈틈없이 꽉 채워줍니다.
+      */
+      object-fit: cover;
+      display: block;
+    }
+
+    /* 비디오 우측 하단의 편리한 사용자 컨트롤 버튼 (음소거 토글 & 일시정지) */
+    .video-controls {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .control-btn {
+      background: rgba(11, 15, 25, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    /* 하단 스크롤 유도 애니메이션 아이콘 */
+    .scroll-indicator {
+      margin-top: 2.5rem;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .scroll-indicator:hover {
+      color: var(--accent-cyan);
+    }
+
+    .mouse-icon {
+      width: 24px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 15px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .mouse-wheel {
+      width: 4px;
+      height: 8px;
+      background: var(--accent-cyan);
+      border-radius: 2px;
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: scrollWheel 2s infinite ease-in-out;
+    }
+
+    /* 마우스 휠이 위에서 아래로 움직이는 키프레임 애니메이션 */
+    @keyframes scrollWheel {
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      50% { opacity: 0.3; transform: translate(-50%, 14px); }
+      100% { opacity: 0; transform: translate(-50%, 18px); }
+    }
+
+    /* ==========================================================
+       [4] 섹션 공통 스타일
+       ========================================================== */
+    section {
+      padding: 100px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-tag {
+      color: var(--accent-cyan);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 620px;
+      margin: 0 auto;
+      word-break: keep-all;
+    }
+
+    /* ==========================================================
+       [5] 서울의 주요 명소 (Landmarks) 그리드 카드
+       ========================================================== */
+    .landmark-grid {
+      display: grid;
+      /* 반응형 그리드: 최소 너비 280px 이상을 유지하면서 자동으로 1~4열로 배치 */
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(6, 182, 212, 0.45);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.25);
+    }
+
+    .card-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+    }
+
+    .card-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .card:hover .card-img-wrapper img {
+      transform: scale(1.08); /* 카드에 마우스 올리면 사진이 살짝 확대됨 */
+    }
+
+    .card-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(11, 15, 25, 0.75);
+      backdrop-filter: blur(6px);
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .card-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    /* ==========================================================
+       [6] 서울의 매력 포인트 (Highlights) 섹션
+       ========================================================== */
+    .highlights-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .highlight-item {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.85));
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .highlight-item:hover {
+      border-color: var(--accent-pink);
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(236, 72, 153, 0.18);
+    }
+
+    .highlight-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.25), rgba(236, 72, 153, 0.25));
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: var(--accent-cyan);
+    }
+
+    .highlight-item:nth-child(2) .highlight-icon { color: var(--accent-pink); }
+    .highlight-item:nth-child(3) .highlight-icon { color: #f59e0b; }
+    .highlight-item:nth-child(4) .highlight-icon { color: #10b981; }
+
+    .highlight-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .highlight-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    /* 하단 배너 (Call to Action) */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.35), rgba(236, 72, 153, 0.3));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 50px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 50px;
+    }
+
+    .cta-title {
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .cta-desc {
+      color: #cbd5e1;
+      font-size: 1.05rem;
+      max-width: 620px;
+      margin: 0 auto 26px;
+      word-break: keep-all;
+    }
+
+    .btn-glow {
+      display: inline-block;
+      padding: 14px 34px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--primary), var(--accent-pink));
+      background-size: 200% 200%;
+      box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-glow:hover {
+      background-position: right center;
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(6, 182, 212, 0.7);
+    }
+
+    /* ==========================================================
+       [7] 푸터 스타일
+       ========================================================== */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 50px 5% 30px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      background: #070a12;
+    }
+
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .footer-socials a {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .footer-socials a:hover {
+      color: #fff;
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    /* ==========================================================
+       [8] 스크롤 애니메이션 클래스 (Intersection Observer 연동)
+       ========================================================== */
+    /* 기본 상태: 투명하고(opacity: 0) 아래로 40px 내려가 있음 */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    /* 자바스크립트에 의해 화면에 보이면 추가되는 활성화 클래스 */
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 여러 요소가 연달아 순차적으로 등장하도록 지연시간(Delay)을 부여 */
+    .delay-1 { transition-delay: 0.15s; }
+    .delay-2 { transition-delay: 0.30s; }
+    .delay-3 { transition-delay: 0.45s; }
+
+    /* ==========================================================
+       [9] 모바일 및 태블릿 미디어 쿼리 (반응형 최적화)
+       ========================================================== */
+    @media (max-width: 768px) {
+      /* 모바일에서는 햄버거 메뉴 아이콘 표시 */
+      .menu-toggle {
+        display: block;
+      }
+
+      /* 메뉴 목록을 모바일 화면 전체를 덮는 드롭다운 메뉴로 전환 */
+      .nav-links {
+        position: fixed;
+        top: 74px;
+        left: 0;
+        width: 100%;
+        background: rgba(11, 15, 25, 0.98);
+        backdrop-filter: blur(15px);
+        flex-direction: column;
+        padding: 30px 0;
+        gap: 1.5rem;
+        text-align: center;
+        border-bottom: 1px solid var(--card-border);
+        transform: translateY(-150%);
+        transition: transform 0.4s ease-in-out;
+      }
+
+      .nav-links.active {
+        transform: translateY(0);
+      }
+
+      .hero-section {
+        padding: 105px 4% 50px;
+      }
+
+      .video-container {
+        border-radius: 14px;
+        padding: 3px;
+      }
+
+      .video-inner {
+        border-radius: 11px;
+      }
+
+      .control-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================
+       [HTML 1] 상단 네비게이션 헤더
+       ========================================================== -->
+  <header class="navbar" id="navbar">
+    <a href="#" class="logo">
+      <i class="fa-solid fa-mountain-sun"></i>
+      SEOUL <span>VIBE</span>
+    </a>
+
+    <!-- 모바일 전용 햄버거 메뉴 버튼 -->
+    <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- 메뉴 항목들 -->
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">홈</a></li>
+      <li><a href="#landmarks">명소 소개</a></li>
+      <li><a href="#highlights">서울의 매력</a></li>
+      <li><a href="#about">체험 안내</a></li>
+    </ul>
+  </header>
+
+  <!-- ==========================================================
+       [HTML 2] 메인 히어로 섹션 (중앙 비디오 배치)
+       ========================================================== -->
+  <section class="hero-section" id="hero">
+    <!-- 배경 은은한 오로라 원형 효과 -->
+    <div class="hero-glow"></div>
+
+    <div class="hero-content">
+      <!-- 상단 인트로 뱃지 -->
+      <div class="hero-badge fade-up">
+        <i class="fa-solid fa-sparkles"></i> DISCOVER SEOUL, SOUTH KOREA
+      </div>
+
+      <!-- 메인 헤드라인 타이틀 -->
+      <h1 class="hero-title fade-up delay-1">
+        과거와 미래가 춤추는 도시, <br>
+        <span class="gradient-text">다채로운 서울</span>을 만나다
+      </h1>
+
+      <!-- 서브 설명문 -->
+      <p class="hero-subtitle fade-up delay-2">
+        600년 역사의 유서 깊은 고궁부터 화려한 네온사인과 첨단 기술이 공존하는 곳.
+        당신의 심장을 뛰게 할 서울의 황홀한 풍경 속으로 초대합니다.
+      </p>
+
+      <!-- --------------------------------------------------------
+           ★ 메인 비디오 플레이어 영역 (반응형 16:9 + 모바일 최적화)
+           -------------------------------------------------------- -->
+      <div class="video-container fade-up delay-3">
+        <div class="video-inner">
+          <!--
+            [비디오 태그 핵심 속성 설명]
+            1. autoplay: 페이지 접속 시 자동으로 영상이 재생됩니다.
+            2. loop: 영상 재생이 끝나면 처음부터 무한 반복 재생합니다.
+            3. muted: 브라우저 보안/자동재생 정책에 따라 음소거 상태여야만 자동재생이 차단되지 않습니다.
+            4. playsinline: iOS(아이폰) 및 모바일 기기에서 전체화면으로 튕겨 나가지 않고 웹페이지 안에서 인라인으로 재생됩니다.
+          -->
+          <video id="seoulVideo" autoplay loop muted playsinline>
+            <!-- 
+              폴더에 있는 동영상 파일명이 '서울 여행.mp4' 또는 '서울.mp4'여도 브라우저가 자동으로 찾아서 재생하도록 2중 등록 
+            -->
+            <source src="서울 여행.mp4" type="video/mp4">
+            <source src="서울.mp4" type="video/mp4">
+            현재 사용 중인 브라우저는 HTML5 비디오 태그를 지원하지 않습니다.
+          </video>
+
+          <!-- 사용자 편의를 위한 비디오 조작 오버레이 버튼 -->
+          <div class="video-controls">
+            <!-- 음소거 토글 버튼 -->
+            <button class="control-btn" id="muteBtn" title="소리 켜기/끄기" aria-label="소리 제어">
+              <i class="fa-solid fa-volume-xmark" id="muteIcon"></i>
+            </button>
+            <!-- 재생/일시정지 토글 버튼 -->
+            <button class="control-btn" id="playBtn" title="재생/일시정지" aria-label="재생 제어">
+              <i class="fa-solid fa-pause" id="playIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 하단 스크롤 안내 마우스 아이콘 -->
+      <a href="#landmarks" class="scroll-indicator fade-up delay-3">
+        <div class="mouse-icon">
+          <div class="mouse-wheel"></div>
+        </div>
+        <span>아래로 스크롤하여 더 알아보기</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       [HTML 3] 서울의 대표 랜드마크 섹션
+       ========================================================== -->
+  <section id="landmarks">
+    <div class="section-header fade-up">
+      <span class="section-tag">TOP LANDMARKS</span>
+      <h2 class="section-title">서울의 시간을 걷는 명소</h2>
+      <p class="section-desc">조선의 숨결을 간직한 고궁부터 미래 지향적인 초현대식 건축물까지 서울을 대표하는 랜드마크를 소개합니다.</p>
+    </div>
+
+    <div class="landmark-grid">
+      <!-- 랜드마크 1: 경복궁 -->
+      <article class="card fade-up">
+        <div class="card-img-wrapper">
+          <span class="card-tag">역사와 전통</span>
+          <img src="https://images.unsplash.com/photo-1546874177-9e664107314e?auto=format&fit=crop&w=800&q=80" alt="경복궁 근정전">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">경복궁 (Gyeongbokgung)</h3>
+          <p class="card-desc">조선 왕조 제일의 법궁으로, 웅장한 근정전과 고즈넉한 경회루 연못이 사계절 내내 한 폭의 그림 같은 풍경을 자랑합니다.</p>
+        </div>
+      </article>
+
+      <!-- 랜드마크 2: N서울타워 -->
+      <article class="card fade-up delay-1">
+        <div class="card-img-wrapper">
+          <span class="card-tag">로맨틱 야경</span>
+          <img src="https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=800&q=80" alt="N서울타워 전경">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">N서울타워 (N Seoul Tower)</h3>
+          <p class="card-desc">남산 정상에 우뚝 솟아 서울 도심 전체를 360도 파노라마로 조망할 수 있는 곳으로, 황홀한 일몰과 밤의 불빛이 매혹적입니다.</p>
+        </div>
+      </article>
+
+      <!-- 랜드마크 3: DDP -->
+      <article class="card fade-up delay-2">
+        <div class="card-img-wrapper">
+          <span class="card-tag">미래 & 디자인</span>
+          <img src="https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=800&q=80" alt="DDP 야경">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">동대문 디자인 플라자 (DDP)</h3>
+          <p class="card-desc">자하 하디드가 설계한 세계 최대 규모의 3차원 비정형 건축물로, 패션과 첨단 트렌드, 미디어 아트의 중심지입니다.</p>
+        </div>
+      </article>
+
+      <!-- 랜드마크 4: 한강공원 -->
+      <article class="card fade-up delay-3">
+        <div class="card-img-wrapper">
+          <span class="card-tag">도심 속 휴식</span>
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="한강의 석양">
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">여의도 한강공원 (Hangang)</h3>
+          <p class="card-desc">도심을 가로지르는 한강을 따라 자전거 라이딩과 피크닉, 라면을 즐기며 서울 시민의 여유로운 일상을 함께 호흡하는 힐링 공간입니다.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       [HTML 4] 서울의 매력 포인트 (Highlights)
+       ========================================================== -->
+  <section id="highlights">
+    <div class="section-header fade-up">
+      <span class="section-tag">WHY SEOUL</span>
+      <h2 class="section-title">서울을 사랑할 수밖에 없는 이유</h2>
+      <p class="section-desc">24시간 잠들지 않는 도시, 오감을 자극하는 특별한 경험이 기다립니다.</p>
+    </div>
+
+    <div class="highlights-container">
+      <!-- 매력 1: 스마트 시티 -->
+      <div class="highlight-item fade-up">
+        <div class="highlight-icon">
+          <i class="fa-solid fa-wifi"></i>
+        </div>
+        <h3 class="highlight-title">스마트 하이테크 시티</h3>
+        <p class="highlight-desc">세계 최고 수준의 대중교통 인프라와 어디서나 연결되는 초고속 Wi-Fi망으로 편리하고 스마트한 여행을 보장합니다.</p>
+      </div>
+
+      <!-- 매력 2: K-컬처 -->
+      <div class="highlight-item fade-up delay-1">
+        <div class="highlight-icon">
+          <i class="fa-solid fa-music"></i>
+        </div>
+        <h3 class="highlight-title">K-컬처의 심장</h3>
+        <p class="highlight-desc">글로벌 열풍을 이끄는 K-POP, K-드라마의 촬영지와 최신 패션, 뷰티 트렌드가 실시간으로 탄생하는 곳입니다.</p>
+      </div>
+
+      <!-- 매력 3: 미식 -->
+      <div class="highlight-item fade-up delay-2">
+        <div class="highlight-icon">
+          <i class="fa-solid fa-bowl-food"></i>
+        </div>
+        <h3 class="highlight-title">풍부한 미식의 향연</h3>
+        <p class="highlight-desc">광장시장 맛있는 길거리 음식부터 미쉐린 스타 파인다이닝까지 다채롭고 건강한 K-푸드를 맛볼 수 있습니다.</p>
+      </div>
+
+      <!-- 매력 4: 24시간 안전한 밤문화 -->
+      <div class="highlight-item fade-up delay-3">
+        <div class="highlight-icon">
+          <i class="fa-solid fa-moon"></i>
+        </div>
+        <h3 class="highlight-title">안전하고 빛나는 밤</h3>
+        <p class="highlight-desc">세계에서 가장 치안이 우수한 도시 중 하나로, 한밤중에도 안전하게 화려한 야경과 심야 카페 문화를 즐길 수 있습니다.</p>
+      </div>
+    </div>
+
+    <!-- 하단 다시보기 배너 (CTA) -->
+    <div class="cta-banner fade-up" id="about">
+      <h3 class="cta-title">지금, 당신만의 서울 여행을 시작해보세요</h3>
+      <p class="cta-desc">골목마다 숨겨진 감성 카페, 역사 깊은 문화유산, 빛나는 도심의 야경이 당신의 발걸음을 기다리고 있습니다.</p>
+      <a href="#hero" class="btn-glow">
+        <i class="fa-solid fa-paper-plane" style="margin-right: 8px;"></i> 서울 영상 다시보기
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       [HTML 5] 푸터 (Footer)
+       ========================================================== -->
+  <footer>
+    <div class="footer-socials">
+      <a href="#" aria-label="인스타그램"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#" aria-label="유튜브"><i class="fa-brands fa-youtube"></i></a>
+      <a href="#" aria-label="페이스북"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#" aria-label="깃허브"><i class="fa-brands fa-github"></i></a>
+    </div>
+    <p>&copy; 2026 SEOUL VIBE. All rights reserved. 대한민국 서울특별시의 아름다움을 전합니다.</p>
+  </footer>
+
+  <!-- ==========================================================
+       [JavaScript] 인터랙션 및 애니메이션 제어 (교육용 상세 주석 포함)
+       ========================================================== -->
+  <script>
+    /*
+      [로직 1] 스크롤 시 상단 네비게이션 헤더 스타일 변경
+      - 사용자가 50px 이상 아래로 스크롤을 내리면
+        navbar에 'scrolled' 클래스를 붙여 배경을 더 짙게 만들고 높이를 살짝 줄입니다.
+    */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    /*
+      [로직 2] 모바일 반응형 햄버거 메뉴 토글
+      - 스마트폰 등 좁은 화면에서 우측 햄버거 버튼을 클릭/터치했을 때
+        메뉴 목록이 펼쳐지거나 닫히도록 'active' 클래스를 토글합니다.
+    */
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      // 메뉴가 열려있을 때는 닫기(X) 아이콘으로, 닫혔을 때는 햄버거(Bars) 아이콘으로 변경
+      if (navLinks.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+      } else {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // 메뉴의 특정 링크를 클릭하면 모바일 메뉴가 자동으로 닫히도록 처리
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        const icon = menuToggle.querySelector('i');
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      });
+    });
+
+    /*
+      [로직 3] Intersection Observer API를 활용한 부드러운 스크롤 등장 효과
+      - 브라우저에 내장된 고성능 화면 관찰자(IntersectionObserver)를 사용하여
+        각 요소가 화면에 15% 이상 나타날 때 'visible' 클래스를 추가합니다.
+    */
+    const observerOptions = {
+      root: null,     // 브라우저 뷰포트 기준
+      rootMargin: '0px',
+      threshold: 0.15 // 대상 요소가 화면에 15% 노출되면 감지
+    };
+
+    const revealCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // 화면에 들어오면 visible 클래스를 붙여 페이드인 실행
+          entry.target.classList.add('visible');
+          // 불필요한 반복 계산을 막기 위해 관찰 해제 (브라우저 최적화)
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const scrollObserver = new IntersectionObserver(revealCallback, observerOptions);
+
+    // .fade-up 클래스를 가진 모든 요소들을 관찰 대상으로 등록
+    document.querySelectorAll('.fade-up').forEach(element => {
+      scrollObserver.observe(element);
+    });
+
+    /*
+      [로직 4] 메인 비디오 컨트롤 (음소거 토글 & 재생/일시정지)
+      - 브라우저 자동재생 정책으로 인해 최초에는 음소거(muted) 상태로 시작합니다.
+      - 사용자가 원할 때 자유롭게 소리를 켜거나 끌 수 있도록 버튼 이벤트를 연결합니다.
+    */
+    const seoulVideo = document.getElementById('seoulVideo');
+    const muteBtn = document.getElementById('muteBtn');
+    const muteIcon = document.getElementById('muteIcon');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
+
+    // 소리 켜기/끄기(음소거) 토글
+    muteBtn.addEventListener('click', () => {
+      if (seoulVideo.muted) {
+        seoulVideo.muted = false; // 소리 켜기
+        muteIcon.classList.remove('fa-volume-xmark');
+        muteIcon.classList.add('fa-volume-high');
+        muteBtn.setAttribute('title', '음소거하기');
+      } else {
+        seoulVideo.muted = true;  // 소리 끄기(음소거)
+        muteIcon.classList.remove('fa-volume-high');
+        muteIcon.classList.add('fa-volume-xmark');
+        muteBtn.setAttribute('title', '소리 켜기');
+      }
+    });
+
+    // 재생 / 일시정지 토글
+    playBtn.addEventListener('click', () => {
+      if (seoulVideo.paused) {
+        seoulVideo.play();
+        playIcon.classList.remove('fa-play');
+        playIcon.classList.add('fa-pause');
+        playBtn.setAttribute('title', '일시정지');
+      } else {
+        seoulVideo.pause();
+        playIcon.classList.remove('fa-pause');
+        playIcon.classList.add('fa-play');
+        playBtn.setAttribute('title', '재생하기');
+      }
+    });
+
+    // 브라우저 정책으로 인해 간혹 발생할 수 있는 비디오 자동재생 실패 예외 방어
+    window.addEventListener('DOMContentLoaded', () => {
+      const playPromise = seoulVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log("브라우저 자동재생 보안 정책에 의해 대기 중입니다. 클릭 시 정상 재생됩니다.");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
